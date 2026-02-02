@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +21,19 @@ public class ProductService {
     private final ProductRepository categoryRepository;
 
 
+    public ProductResponseDTO findById(UUID id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getCategory());
+    }
 
     public ProductResponseDTO getByName(String name) {
         Product product = productRepository.getByName(name).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
-        return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice());
+        return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getCategory());
     }
 
 
     public Page<ProductResponseDTO> getAllPaginated(Pageable pagination) {
-        return  productRepository.findAll(pagination).map(p -> new ProductResponseDTO(p.getId(), p.getName(), p.getPrice()));
+        return  productRepository.findAll(pagination).map(p -> new ProductResponseDTO(p.getId(), p.getName(), p.getPrice(), p.getCategory()));
     }
 
     public ProductResponseDTO create (ProductRequestDTO data) {
@@ -44,7 +48,7 @@ public class ProductService {
 
         Product saved = productRepository.save(newProduct);
 
-        return new ProductResponseDTO(saved.getId(), saved.getName(), saved.getPrice());
+        return new ProductResponseDTO(saved.getId(), saved.getName(), saved.getPrice(), saved.getCategory());
     }
 
 
