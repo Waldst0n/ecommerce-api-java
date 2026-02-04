@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,4 +19,7 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 }
