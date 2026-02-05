@@ -20,7 +20,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping()
-    public ResponseEntity<Page<CategoryResponseDTO>> findAll(@PageableDefault(size = 10, sort = "name") Pageable pagination) {
+    public ResponseEntity<Page<CategoryResponseDTO>> findAll(@PageableDefault( sort = "name") Pageable pagination) {
 
         return ResponseEntity.ok(categoryService.findAll(pagination));
 
