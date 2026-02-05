@@ -39,16 +39,13 @@ public class CategoryService {
 
     }
 
-//    public CategoryResponseDTO  remove(UUID id) {
-//        CategoryResponseDTO category = findById(id);
-//
-//        category.deleted_at(LocalDateTime.now());
-//
-//        categoryRepository.save(category);
-//
-//
-//
-//
-//    }
+    public void remove(UUID id) {
+            Category category = categoryRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
 
-}
+            category.setDeletedAt(LocalDateTime.now());
+
+            categoryRepository.save(category);
+        }
+
+    }

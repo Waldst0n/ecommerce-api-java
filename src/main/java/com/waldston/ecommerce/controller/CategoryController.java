@@ -2,8 +2,8 @@ package com.waldston.ecommerce.controller;
 
 import com.waldston.ecommerce.dto.category.CategoryRequestDTO;
 import com.waldston.ecommerce.dto.category.CategoryResponseDTO;
-import com.waldston.ecommerce.model.Category;
 import com.waldston.ecommerce.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +27,7 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public ResponseEntity<CategoryResponseDTO> create(@RequestBody CategoryRequestDTO dto) {
+    public ResponseEntity<CategoryResponseDTO> create(@RequestBody @Valid CategoryRequestDTO dto) {
         CategoryResponseDTO newCategory = categoryService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
     }
