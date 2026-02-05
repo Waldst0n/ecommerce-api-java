@@ -1,9 +1,10 @@
 package com.waldston.ecommerce.service;
 
-import com.waldston.ecommerce.dto.ProductRequestDTO;
-import com.waldston.ecommerce.dto.ProductResponseDTO;
+import com.waldston.ecommerce.dto.product.ProductRequestDTO;
+import com.waldston.ecommerce.dto.product.ProductResponseDTO;
 import com.waldston.ecommerce.model.Category;
 import com.waldston.ecommerce.model.Product;
+import com.waldston.ecommerce.repository.CategoryRepository;
 import com.waldston.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final ProductRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
 
 
     public ProductResponseDTO findById(UUID id) {
@@ -38,7 +40,7 @@ public class ProductService {
 
     public ProductResponseDTO create (ProductRequestDTO data) {
         Category category = categoryRepository.findById(data.category_id())
-                .orElseThrow(() -> new RuntimeException("Categoria Não Encontrada.")).getCategory();
+                .orElseThrow(() -> new RuntimeException("Categoria Não Encontrada."));
 
 
         Product newProduct = new Product();

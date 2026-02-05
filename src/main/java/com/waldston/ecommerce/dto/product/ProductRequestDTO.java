@@ -1,4 +1,4 @@
-package com.waldston.ecommerce.dto;
+package com.waldston.ecommerce.dto.product;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

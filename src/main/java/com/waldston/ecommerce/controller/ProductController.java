@@ -1,7 +1,7 @@
 package com.waldston.ecommerce.controller;
 
-import com.waldston.ecommerce.dto.ProductRequestDTO;
-import com.waldston.ecommerce.dto.ProductResponseDTO;
+import com.waldston.ecommerce.dto.product.ProductRequestDTO;
+import com.waldston.ecommerce.dto.product.ProductResponseDTO;
 import com.waldston.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

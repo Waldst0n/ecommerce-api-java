@@ -1,4 +1,4 @@
-package com.waldston.ecommerce.dto;
+package com.waldston.ecommerce.dto.product;
 
 import com.waldston.ecommerce.model.Category;
 
