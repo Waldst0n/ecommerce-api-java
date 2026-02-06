@@ -2,6 +2,8 @@ package com.waldston.ecommerce.service;
 
 import com.waldston.ecommerce.dto.product.ProductRequestDTO;
 import com.waldston.ecommerce.dto.product.ProductResponseDTO;
+import com.waldston.ecommerce.exception.category.CategoryNotFoundException;
+import com.waldston.ecommerce.exception.product.ProductNotFoundException;
 import com.waldston.ecommerce.model.Category;
 import com.waldston.ecommerce.model.Product;
 import com.waldston.ecommerce.repository.CategoryRepository;
@@ -24,23 +26,23 @@ public class ProductService {
 
 
     public ProductResponseDTO findById(UUID id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Produto não encontrado"));
         return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getCategory());
     }
 
     public ProductResponseDTO getByName(String name) {
-        Product product = productRepository.getByName(name).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+        Product product = productRepository.getByName(name).orElseThrow(() -> new ProductNotFoundException("Produto não encontrado."));
         return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getCategory());
     }
 
 
     public Page<ProductResponseDTO> getAllPaginated(Pageable pagination) {
-        return  productRepository.findAll(pagination).map(p -> new ProductResponseDTO(p.getId(), p.getName(), p.getPrice(), p.getCategory()));
+            return  productRepository.findAll(pagination).map(p -> new ProductResponseDTO(p.getId(), p.getName(), p.getPrice(), p.getCategory()));
     }
 
     public ProductResponseDTO create (ProductRequestDTO data) {
         Category category = categoryRepository.findById(data.category_id())
-                .orElseThrow(() -> new RuntimeException("Categoria Não Encontrada."));
+                .orElseThrow(() -> new CategoryNotFoundException("Categoria Não Encontrada."));
 
 
         Product newProduct = new Product();

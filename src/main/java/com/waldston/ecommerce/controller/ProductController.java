@@ -29,6 +29,8 @@ public class ProductController {
 
     @GetMapping()
     public ResponseEntity<Page<ProductResponseDTO>> getAll(@PageableDefault(size = 10, sort = "name")Pageable pagination) {
+
+
         return ResponseEntity.ok(productService.getAllPaginated(pagination));
     }
 

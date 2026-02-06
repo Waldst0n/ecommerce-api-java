@@ -2,6 +2,7 @@ package com.waldston.ecommerce.service;
 
 import com.waldston.ecommerce.dto.category.CategoryRequestDTO;
 import com.waldston.ecommerce.dto.category.CategoryResponseDTO;
+import com.waldston.ecommerce.exception.category.CategoryNotFoundException;
 import com.waldston.ecommerce.model.Category;
 import com.waldston.ecommerce.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO findById(UUID id) {
-        Category response = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
+        Category response = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada!"));
         return new CategoryResponseDTO(response.getId(), response.getName(), response.getDeletedAt());
     }
 
@@ -41,7 +42,7 @@ public class CategoryService {
 
     public void remove(UUID id) {
             Category category = categoryRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
+                    .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada!"));
 
             category.setDeletedAt(LocalDateTime.now());
 
