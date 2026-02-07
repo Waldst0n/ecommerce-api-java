@@ -28,17 +28,24 @@ public class CategoryController {
 
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponseDTO> findById(@PathVariable UUID id) {
+        CategoryResponseDTO category = categoryService.findById(id);
+        return ResponseEntity.ok().body(category);
+    }
+
+
     @DeleteMapping("/{id}")
-    public ResponseEntity remove(@PathVariable UUID id) {
+    public ResponseEntity<Void> remove(@PathVariable UUID id) {
         categoryService.remove(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<CategoryResponseDTO> update(@PathVariable UUID id, @RequestBody CategoryRequestDTO dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryResponseDTO> update(@PathVariable UUID id, @RequestBody @Valid CategoryRequestDTO dto) {
         CategoryResponseDTO category = categoryService.update(id, dto);
 
-        return  ResponseEntity.status(HttpStatus.ACCEPTED).body(category);
+        return  ResponseEntity.status(HttpStatus.OK).body(category);
 
     }
 
