@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController()
 @RequiredArgsConstructor
 @RequestMapping("/categories")
@@ -24,6 +26,12 @@ public class CategoryController {
 
         return ResponseEntity.ok(categoryService.findAll(pagination));
 
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity remove(@PathVariable UUID id) {
+        categoryService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping()

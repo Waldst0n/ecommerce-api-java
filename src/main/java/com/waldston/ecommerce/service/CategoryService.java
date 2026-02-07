@@ -20,7 +20,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Page<CategoryResponseDTO> findAll(Pageable pagination) {
-        return categoryRepository.findAll(pagination).map(category -> new CategoryResponseDTO(category.getId(), category.getName(), category.getDeletedAt()));
+        return categoryRepository.findByDeletedAtIsNull(pagination).map(category -> new CategoryResponseDTO(category.getId(), category.getName(), category.getDeletedAt()));
     }
 
     public CategoryResponseDTO findById(UUID id) {
