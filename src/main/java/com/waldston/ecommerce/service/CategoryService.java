@@ -40,6 +40,20 @@ public class CategoryService {
 
     }
 
+    public CategoryResponseDTO update(UUID id, CategoryRequestDTO dto) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada!"));
+
+        if (category.getDeletedAt() == null) {
+
+            category.setName(dto.name());
+            categoryRepository.save(category);
+        } else {
+            throw new RuntimeException("Categoria não existe");
+        }
+
+        return new CategoryResponseDTO(category.getId(), category.getName(), category.getDeletedAt());
+    }
+
     public void remove(UUID id) {
             Category category = categoryRepository.findById(id)
                     .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada!"));
