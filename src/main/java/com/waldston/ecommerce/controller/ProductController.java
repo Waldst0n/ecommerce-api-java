@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController()
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -21,17 +24,30 @@ public class ProductController {
     private final ProductService productService;
 
 
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductResponseDTO> findById(@PathVariable UUID id) {
+        ProductResponseDTO productResponseDTO = productService.findById(id);
+
+        return ResponseEntity.ok(productResponseDTO);
+    }
+
+
     @GetMapping("/{name}")
-    public ResponseEntity<ProductResponseDTO> getByName(@PathVariable String name) {
-        ProductResponseDTO productResponseDTO = productService.getByName(name);
+    public ResponseEntity<ProductResponseDTO> findByName(@PathVariable String name) {
+        ProductResponseDTO productResponseDTO = productService.findByName(name);
         return ResponseEntity.ok(productResponseDTO);
     }
 
     @GetMapping()
     public ResponseEntity<Page<ProductResponseDTO>> getAll(@PageableDefault(size = 10, sort = "name")Pageable pagination) {
-
-
         return ResponseEntity.ok(productService.getAllPaginated(pagination));
+    }
+
+
+    @GetMapping("/categories")
+    public List<ProductResponseDTO> findByCategory (@PageableDefault(sort = "name") Pageable pageable, @RequestParam(required = true) String category) {
+        return productService.findByCategory_Name(category);
     }
 
 

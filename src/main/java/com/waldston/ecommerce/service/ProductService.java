@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,9 +31,17 @@ public class ProductService {
         return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getCategory());
     }
 
-    public ProductResponseDTO getByName(String name) {
-        Product product = productRepository.getByName(name).orElseThrow(() -> new ProductNotFoundException("Produto não encontrado."));
+    public ProductResponseDTO findByName(String name) {
+        Product product = productRepository.findByName(name).orElseThrow(() -> new ProductNotFoundException("Produto não encontrado."));
         return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getCategory());
+    }
+
+    public List<ProductResponseDTO> findByCategory_Name(String category) {
+        List<Product> products = productRepository.findByCategory_Name(category);
+        if (products.isEmpty()) {
+            throw  new ProductNotFoundException("Produtos não encontrados para essa categoria");
+        }
+        return products.stream().map(p -> new ProductResponseDTO(p.getId(), p.getName(), p.getPrice(), p.getCategory())).toList();
     }
 
 
